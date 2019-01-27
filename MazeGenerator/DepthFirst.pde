@@ -61,7 +61,7 @@ class DepthFirst extends Maze {
       }
     }
 
-    for (int i = 0; i< pathfinders; ++i) {
+    for (int i = 0; i< pathFinders; ++i) {
       //as long as one path is still going, continue processing
       if (stillGoing[i])
         return true;
@@ -92,6 +92,7 @@ class DepthFirst extends Maze {
       current = next;
       current.current = true;
       current.visited = true;
+      current.addcolor(stack.size());
     } else if (!stack.isEmpty()) {
       // go back to the previous cell when current cell can't advance anymore
       current.current = false;

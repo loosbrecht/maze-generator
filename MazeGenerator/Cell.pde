@@ -6,6 +6,9 @@ class Cell { //<>//
   boolean visited;
   //defines the wall of a cell
   boolean top, left, right, bottom;
+  int r;
+  int g;
+  int b;
 
   public Cell(int x, int y, int size) {
     this.x = x;
@@ -18,6 +21,20 @@ class Cell { //<>//
     this.right = true;
     this.bottom = true;
   }
+  
+  public void addcolor(int c){
+    r = c;
+    g = 0;
+    b = 0;
+    if(r >= 255){
+      r = 255;
+      g = c-255;
+    }
+    if(g > 255){
+      g = 255;
+      b = c - 500;
+    }
+  }
 
   public void draw() {
 
@@ -27,9 +44,10 @@ class Cell { //<>//
     //fill the cell with a colour
     if (current)
       fill(#E85959);
-    else if (visited)
-      fill(#5A5A5A);
-    else
+    else if (visited){
+      // fill(#5A5A5A);
+     fill(r,g,b);
+    }else
       fill(200);
     noStroke();
     rect(x*size, y*size, size, size);
