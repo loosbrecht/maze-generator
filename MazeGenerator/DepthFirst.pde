@@ -5,10 +5,14 @@ class DepthFirst extends Maze {
   int countStep;
 
   boolean[] stillGoing;
+  boolean notZeroStart;
   public DepthFirst(int rows, int cols) {
-    this(rows, cols, 1);
+    this(rows, cols, 1,0,0);
   }
-  public DepthFirst(int rows, int cols, int PathFinders) {
+  public DepthFirst(int rows, int cols, int pathFinders){
+    this(rows,cols,pathFinders,0,0);
+  }
+  public DepthFirst(int rows, int cols, int pathFinders, int startX, int startY) {
     super(rows, cols);
     this.pathFinders = pathFinders;
     this.countStep = 0;
@@ -19,10 +23,15 @@ class DepthFirst extends Maze {
       stacks.add( new Stack<Cell>());
       stillGoing[i] = true;
     }
-    grid[0][0].current = true;
-    grid[0][0].visited = true;
+    
+    if(startY != 0 && startX != 0){
+      notZeroStart = true;
+    }
+    
+    grid[startY][startX].current = true;
+    grid[startY][startX].visited = true;
     for (int i = 0; i<pathFinders; ++i) {
-      currentCells.add(grid[0][0]);
+      currentCells.add(grid[startY][startX]);
     }
   }
 
@@ -30,7 +39,7 @@ class DepthFirst extends Maze {
   public boolean calculateNextStep() {
     countStep++;
     //try recreating the remaining pathfinders
-    if (countStep == 10 && pathFinders > 2 && pathFinders <=4) {
+    if (!notZeroStart && countStep == 10 && pathFinders > 2 && pathFinders <=4) {
       for (int i=2; i < pathFinders; ++i) {
         currentCells.set(i, currentCells.get(i-2));
         stillGoing[i] = true;

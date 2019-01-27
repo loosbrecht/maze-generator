@@ -15,7 +15,7 @@ void setup() {
   rows = number;
   size = width/number;
   
-  maze = new DepthFirst(rows, cols,pathfinders );
+  maze = new DepthFirst(rows, cols,pathfinders,cols/2, rows/2 );
   //frameRate(30);
 }
 
