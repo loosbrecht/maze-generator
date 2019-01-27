@@ -6,14 +6,14 @@ class DepthFirst extends Maze {
 
   boolean[] stillGoing;
   boolean notZeroStart;
-  public DepthFirst(int rows, int cols) {
-    this(rows, cols, 1,0,0);
+  public DepthFirst(int rows, int cols,int size) {
+    this(rows, cols,size, 1,0,0);
   }
-  public DepthFirst(int rows, int cols, int pathFinders){
-    this(rows,cols,pathFinders,0,0);
+  public DepthFirst(int rows, int cols, int size, int pathFinders){
+    this(rows,cols,size,pathFinders,0,0);
   }
-  public DepthFirst(int rows, int cols, int pathFinders, int startX, int startY) {
-    super(rows, cols);
+  public DepthFirst(int rows, int cols, int size, int pathFinders, int startX, int startY) {
+    super(rows, cols,size);
     this.pathFinders = pathFinders;
     this.countStep = 0;
     this.stacks = new ArrayList<Stack<Cell>>();
@@ -104,18 +104,7 @@ class DepthFirst extends Maze {
 
     return current;
   }
-  /*
-   Check if an unvisited cell  is present in the grid
-   */
-  private boolean unvisitedCellRemaining() {
-    for (Cell[] row : maze.grid) {
-      for (Cell cell : row) {
-        if (!cell.visited)
-          return true;
-      }
-    }
-    return false;
-  }
+  
   /*
    Get all the neighbouring cells that are unvisited
    */
@@ -139,22 +128,5 @@ class DepthFirst extends Maze {
 
     return neighbours;
   }
-  /*
-   Remove the walls between the current and the next cell
-   */
-  private void removeWalls(Cell current, Cell next) {
-    if (current.x+1 == next.x) {
-      current.right = false;
-      next.left = false;
-    } else if (current.x-1 == next.x) {
-      current.left = false;
-      next.right = true;
-    } else if (current.y+1 == next.y) {
-      current.bottom = false;
-      next.top = false;
-    } else if (current.y-1 == next.y) {
-      current.top = false;
-      next.bottom = false;
-    }
-  }
+
 }

@@ -16,6 +16,10 @@ class Cell { //<>//
     this.size = size;
     this.current = false;
     this.visited = false;
+    resetShields();
+  }
+  
+  public void resetShields(){
     this.top = true;
     this.left = true;
     this.right = true;

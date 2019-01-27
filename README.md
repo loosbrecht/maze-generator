@@ -1,5 +1,7 @@
 # maze-generator
 
 Maze generator in Processing
+[Maze generation algorithm](https://en.wikipedia.org/wiki/Maze_generation_algorithm)
 
-Basic depth-first backtracking algorithm based on: [Depth-first backtracking](https://en.wikipedia.org/wiki/Maze_generation_algorithm#Recursive_backtracker)
+- Depth-first recursive backtracker
+- Wilson's algorithm

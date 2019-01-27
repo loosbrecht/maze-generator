@@ -6,11 +6,13 @@ public abstract class Maze {
   Cell[][] grid;
   int rows;
   int cols;
+  int size;
   
   
-  public Maze(int rows, int cols) {
+  public Maze(int rows, int cols, int size) {
     this.rows = rows;
     this.cols = cols;
+    this.size = size;
     initialiseMaze();
   }
 
@@ -23,5 +25,37 @@ public abstract class Maze {
     }
   }
    abstract boolean calculateNextStep();
+   
+   /*
+   Remove the walls between the current and the next cell
+   */
+   public void removeWalls(Cell current, Cell next) {
+    if (current.x+1 == next.x) {
+      current.right = false;
+      next.left = false;
+    } else if (current.x-1 == next.x) {
+      current.left = false;
+      next.right = true;
+    } else if (current.y+1 == next.y) {
+      current.bottom = false;
+      next.top = false;
+    } else if (current.y-1 == next.y) {
+      current.top = false;
+      next.bottom = false;
+    }
+  }
+  
+  /*
+   Check if an unvisited cell  is present in the grid
+   */
+  public boolean unvisitedCellRemaining() {
+    for (Cell[] row : maze.grid) {
+      for (Cell cell : row) {
+        if (!cell.visited)
+          return true;
+      }
+    }
+    return false;
+  }
  
 }
