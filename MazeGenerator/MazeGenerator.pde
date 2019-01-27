@@ -1,6 +1,8 @@
 
 
-int number = 40;
+int number = 60; // number of columns and rows
+int pathfinders = 2;
+
 int cols;
 int rows;
 int size;
@@ -8,12 +10,13 @@ boolean doNextStep = true;
 Maze maze;
 
 void setup() {
-  size(400, 400);
+  size(800, 800);
   cols =  number;
   rows = number;
   size = width/number;
-  maze = new Maze(rows, cols);
-  frameRate(30);
+  
+  maze = new Maze(rows, cols,pathfinders );
+  //frameRate(30);
 }
 
 void draw() {
@@ -25,9 +28,6 @@ void draw() {
   }
   //calculate the next step
   if (doNextStep) {
-    doNextStep = maze.depthFirstStep();
-    if (!doNextStep) {
-      maze.current.current = false;
-    }
+    doNextStep = maze.multipleDepthFirstStep();
   }
 }

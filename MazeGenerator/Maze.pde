@@ -1,17 +1,34 @@
-import java.util.Stack;
+import java.util.Stack; //<>// //<>//
 import java.util.List;
 
 class Maze {
 
   Cell[][] grid;
-  Stack<Cell> stack = new Stack<Cell>();
+  List<Stack<Cell>> stacks;
+  Cell[] currentCells;
   int rows;
   int cols;
-  Cell current;
+  int pathFinders;
+
+ boolean[] stillGoing;
 
   public Maze(int rows, int cols) {
-    this.rows = rows;
+    this(rows, cols, 1);
+  }
+  public Maze(int rows, int cols, int pathF) {
+    this.rows = rows; //<>//
     this.cols = cols;
+    this.pathFinders = pathF;
+    this.stacks = new ArrayList<Stack<Cell>>();
+ this.currentCells = new Cell[pathFinders];
+    this.stillGoing = new boolean[pathFinders];
+    for (int i=0; i< pathFinders; ++i) {
+      stacks.add( new Stack<Cell>());
+      stillGoing[i] = true;
+    }
+   
+
+
     initialiseMaze();
   }
 
@@ -23,21 +40,47 @@ class Maze {
       }
     }
 
+ //<>//
+    grid[0][0].current = true;
+    grid[0][0].visited = true;
+    for (int i = 0; i<pathFinders; ++i) {
+      currentCells[i] = grid[0][0];
+    }
+  }
 
-    current = grid[0][0];
-    current.visited = true;
-    current.current = true;
+  public boolean multipleDepthFirstStep() {
+    
+    for (int i =0; i< pathFinders; ++i) {
+      
+      if (stillGoing[i]) {
+        Cell res = depthFirstStep(currentCells[i], stacks.get(i));
+        if (res == null) {
+          currentCells[i].current = false;
+          stillGoing[i] = false;
+        } else {
+          currentCells[i] = res;
+         
+        }
+      }
+    }
+ 
+    for(int i = 0; i< pathfinders; ++i){
+      //as long as one path is still going, continue processing
+      if(stillGoing[i])
+        return true;
+    }
+    return false;
   }
 
   /*
   Calculate the next step in the depth first algorithm
    returns false if done;
    */
-  public boolean depthFirstStep() {
+  private Cell depthFirstStep(Cell current, Stack<Cell> stack) {
     // check if a unvisited cell is remaining
-    if (!unvisitedCellRemaining()) //<>//
-      return false;
-     // get all the unvisited neighours
+    if (!unvisitedCellRemaining())
+      return null;
+    // get all the unvisited neighours
     List<Cell> unvisitedNeighbours = getUnvisitedNeighbours(current);
     if (!unvisitedNeighbours.isEmpty()) {
       // get next random cell
@@ -58,14 +101,14 @@ class Maze {
       current = stack.pop();
       current.current = true;
     } else {
-      return false;
+      return null;
     }
 
-    return true;
+    return current;
   }
   /*
    Check if an unvisited cell  is present in the grid
-  */
+   */
   private boolean unvisitedCellRemaining() {
     for (Cell[] row : maze.grid) {
       for (Cell cell : row) {
@@ -77,7 +120,7 @@ class Maze {
   }
   /*
    Get all the neighbouring cells that are unvisited
-  */
+   */
   private List<Cell> getUnvisitedNeighbours(Cell c) {
 
     int x = c.x;
@@ -100,7 +143,7 @@ class Maze {
   }
   /*
    Remove the walls between the current and the next cell
-  */
+   */
   private void removeWalls(Cell current, Cell next) {
     if (current.x+1 == next.x) {
       current.right = false;
