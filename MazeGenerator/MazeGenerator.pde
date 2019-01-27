@@ -1,7 +1,7 @@
 
 
-int number = 60; // number of columns and rows
-int pathfinders = 2;
+int number = 40; // number of columns and rows
+int pathfinders = 4;
 
 int cols;
 int rows;
@@ -15,7 +15,7 @@ void setup() {
   rows = number;
   size = width/number;
   
-  maze = new Maze(rows, cols,pathfinders );
+  maze = new DepthFirst(rows, cols,pathfinders );
   //frameRate(30);
 }
 
@@ -28,6 +28,6 @@ void draw() {
   }
   //calculate the next step
   if (doNextStep) {
-    doNextStep = maze.multipleDepthFirstStep();
+    doNextStep = maze.calculateNextStep();
   }
 }
